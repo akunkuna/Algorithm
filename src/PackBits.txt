@@ -1,0 +1,97 @@
+英数小文字・大文字からなる文字列を、PackBitsアルゴリズムで圧縮するプログラムを構築してください。
+入力ルール
+ ./packbits command inputfile
+ inputfile
+ 
+s
+
+commandはcompressかdecompressのどちらかです。
+
+文字列sの長さ範囲は以下の通りです:
+1 <= s.length <= 150000
+commandがcompressなら文字列 s は英数小文字・大文字アルファベットのみを含みます。
+commandがdecompressなら文字列 s は英数小文字・大文字アルファベット・-・半角数字のみを含みます。
+これらの仕様に反する入力は与えられません。
+処理ルール
+文字列 s の初めの文字から終わりまで以下を繰り返して圧縮します:
+文字列 s の i 文字目が連続するならば、なるべく多くの連続する文字を切り出します。
+そして、切り出せた文字数nと、連続する文字?に対して、n?を出力して次に進みます。
+文字列 s の i 文字目が連続しないならば、なるべく多くの連続しない文字を切り出します。
+そして、切り出せた文字数nと、連続しない文字列!に対して、-n!を出力して次に進みます。
+なお上のアルゴリズムで「文字列 s の i 文字目が連続する」とは、s[i] に隣り合うどの文字も s[i] に一致しないことをいいます。
+例えば、ABCAAAAAAAAAAAABであれば、-3ABC12A-1Bに圧縮されます。
+分解して解説すると、
+
+1文字目Aは、ABとなっているので連続しません。したがって、ここから連続しない文字をなるべく多く切り出します。
+これはABCまで切り出すことになるので、-3ABCを出力します。
+4文字目Aは、4-5文字目が両方Aなので連続します。したがって、ここから連続する文字をなるべく多く切り出します。
+これはAAAAAAAAAAAAまで切り出すことになるので、12Aを出力します。
+16文字目Bは、15文字目がAなので連続しません。したがって、ここから連続しない文字をなるべく多く切り出します。
+これはBまで切り出すことになるので、-1Bを出力します。
+この圧縮方法は一意であることに注意してください。先ほどの文字列ABCAAAAAAAAAAAABは-4ABCA11A-1Bには圧縮されません。
+4文字目のAは、隣あう5文字目のAと一致しているので、切り出されません。
+
+出力ルール
+圧縮後の文字列が1行で出力された、answer.txtというファイルを作成してください。
+サンプル
+入力例1
+
+$ ./packbits compress 00_sample1.in
+00_sample1.in
+
+AAAAAA
+出力例1
+answer.txt
+
+6A
+全ての文字が一致しているので、(1)の操作で全て切り出されます。
+
+入力例2
+
+$ ./packbits compress 00_sample2.in
+00_sample2.in
+
+AaAaAAAA
+出力例2
+answer.txt
+
+-4AaAa4A
+アルファベットの大文字と小文字は区別されます。
+
+入力例3
+
+$ ./packbits compress 00_sample3.out
+00_sample3.in
+
+ABCDDAB
+出力例3
+answer.txt
+
+-3ABC2D-2AB
+圧縮後の結果が長くなることもあります。
+
+入力例4
+
+$ ./packbits compress 00_sample4.in
+00_sample4.in
+
+AAAAAAAAAABABBAAAAAAAAAAAAAAAAAAAAABCCCCCCCCCCCCCCCCCC
+出力例4
+answer.txt
+
+10A-2BA2B21A-1B18C
+このアルゴリズムでは、隣り合った文字列が多いと短く圧縮されます。
+
+入力例5
+
+$ ./packbits decompress basic_random2.out
+basic_random2.out
+
+-7DECDHEG2F-1J
+出力例5
+answer.txt
+
+DECDHEGFFJ
+テストケースについて
+test/ ディレクトリにテストケースが含まれています。
+まずはこれらのファイルでテストがパスすることを確認してください。

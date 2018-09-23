@@ -1,8 +1,0 @@
-rule1: [a b] -> a b, priority: 1
-rule2: <a b> -> b a, priority: 1
-
-example:
-[I <love read [the book]>]
-
-expect output:
-I read the book love
