@@ -1,0 +1,6 @@
+#RRGGBB
+find the nearest RR GG BB(each contains two same characters)
+R, G , B range from 0 to F
+
+example
+input: #01ABF1 output: #00AAEE
