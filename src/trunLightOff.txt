@@ -1,0 +1,10 @@
+there is a row * column matrix, each cell means a light.
+if the value of cell is '.' means the light is off
+while '0' means the light is on.
+
+while turn on one light, the up, right, left, down of it
+will change status(on -> off , off -> on)
+
+find out if it is possible to turn off all the light.
+if it is possible calculate the minimal times to
+turn on/off the light.
